@@ -9,35 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:film_app/main.dart';
 import 'package:film_app/consts/colors.dart';
 import 'package:film_app/consts/titles.dart';
-
-class CardItem {
-  final String cardImage;
-  const CardItem({
-    required this.cardImage,
-});
-}
-class WatchItem {
-  final String watchImage;
-  final String watchName;
-  final String watchSub;
-  const WatchItem({
-    required this.watchImage,
-    required this.watchName,
-    required this.watchSub,
-});
-}
-class GenreItem {
-  final String genre;
-  const GenreItem({
-    required this.genre,
-});
-}
-class MovieItem {
-  final String movieImage;
-  const MovieItem({
-    required this.movieImage,
-});
-}
+import 'package:film_app/widgets/movieWidget.dart';
+import 'package:film_app/classes.dart';
 
 class MainPage extends StatefulWidget{
   const MainPage({super.key});
@@ -47,7 +20,7 @@ class MainPage extends StatefulWidget{
 }
 
 class _MainPageState extends State<MainPage> {
-  List<CardItem> items=[
+  List<CardItem> carditems=[
     CardItem(
       cardImage:"assets/images/scream.jpg"
     ),
@@ -58,7 +31,7 @@ class _MainPageState extends State<MainPage> {
         cardImage:"assets/images/harrypotter.jpg"
     ),
   ];
-  List<WatchItem> itemss=[
+  List<WatchItem> watchitems=[
     WatchItem(
       watchImage: "assets/images/godzilla.jpg",
           watchName:"Godzilla vs Kong",
@@ -75,13 +48,13 @@ class _MainPageState extends State<MainPage> {
       watchSub: "Thriller Movie",
     ),
   ];
-  List<GenreItem> itemsss=[
+  List<GenreItem> genreitems=[
     GenreItem(genre: "ACTION"),
     GenreItem(genre: "ANIMATION"),
     GenreItem(genre: "ANIME"),
     GenreItem(genre: "THRILLER"),
   ];
-  List<MovieItem> movieitem=[
+  List<MovieItem> movieitems=[
     MovieItem(movieImage: "assets/images/it.jpg"),
     MovieItem(movieImage: "assets/images/avatar.jpg"),
     MovieItem(movieImage: "assets/images/titanic.jpg"),
@@ -131,7 +104,7 @@ class _MainPageState extends State<MainPage> {
                 scrollDirection: Axis.horizontal,
                   itemCount: 3,
                 separatorBuilder: (context, _) =>SizedBox(width: BoxSizes.box4,),
-                itemBuilder: (context,index) =>buildCard(item:items[index]),
+                itemBuilder: (context,index) =>BuildWidget(item:carditems[index]),
               )
             ),
             SizedBox(height: BoxSizes.box5,),
@@ -149,7 +122,7 @@ class _MainPageState extends State<MainPage> {
                   scrollDirection: Axis.horizontal,
                   itemCount: 3,
                   separatorBuilder: (context, _) =>SizedBox(width: BoxSizes.box4,),
-                  itemBuilder: (context,index) =>watchCard(item:itemss[index]),
+                  itemBuilder: (context,index) =>WatchWidget(item:watchitems[index]),
                 )
             ),
             SizedBox(height: BoxSizes.box7,),
@@ -166,7 +139,7 @@ class _MainPageState extends State<MainPage> {
                   scrollDirection: Axis.horizontal,
                   itemCount: 4,
                   separatorBuilder: (context, _) =>SizedBox(width: BoxSizes.box4,),
-                  itemBuilder: (context,index) =>genreCard(item:itemsss[index]),
+                  itemBuilder: (context,index) =>GenreWidget(item:genreitems[index]),
                 )
             ),
             SizedBox(height: BoxSizes.box1,),
@@ -182,7 +155,7 @@ class _MainPageState extends State<MainPage> {
                   scrollDirection: Axis.horizontal,
                   itemCount: 4,
                   separatorBuilder: (context, _) =>SizedBox(width: BoxSizes.box4,),
-                  itemBuilder: (context,index) =>MovieCard(item:movieitem[index]),
+                  itemBuilder: (context,index) =>MovieWidget(item:movieitems[index]),
                 )
             ),
           ],
@@ -211,121 +184,145 @@ class _MainPageState extends State<MainPage> {
   }
 }
 
-Widget buildCard({
-  required CardItem item,
-})=>Container(
-  width: BoxSizes.box10,
-  height: BoxSizes.box11,
-  decoration: BoxDecoration(borderRadius:BorderRadius.circular(15.0),boxShadow: [
-    BoxShadow(
-      blurRadius: 20,
-      color: ProjectColors.blackColor,
-    ),
-  ]),
-  child: Container(
-    width: BoxSizes.box10,
-    height: BoxSizes.box11,
-    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.0),
-        color: ProjectColors.blackColor),
-    child: Column(
-      children: [
-        Expanded(
-            child: ClipRect(
-                child: Material(
-                    child: Ink.image(image:AssetImage(item.cardImage),fit: BoxFit.cover,
-                      child: InkWell(
-                        onTap: (){},
-                      ),)))),
-      ],
-    ),
-  ),
-);
 
-Widget watchCard({
-  required WatchItem item,
-})=>Container(
-  width: BoxSizes.box12,
-  height: BoxSizes.box13,
-  decoration: BoxDecoration(borderRadius:BorderRadius.circular(10.0),boxShadow: [
-    BoxShadow(
-      blurRadius: 20,
-      color: ProjectColors.blackColor,
-    ),
-  ]),
-  child: Container(
-    width: BoxSizes.box13,
-    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0),
-        color: ProjectColors.darkgreyColor),
-    child: Column(
-      children: [
-        Expanded(
-            child: ClipRect(
-                child: Material(
-                    child: Ink.image(image:AssetImage(item.watchImage),fit: BoxFit.cover,
-                    child: InkWell(
-                      onTap: (){}
-                    ),)))),
-        SizedBox(height: BoxSizes.box14,),
-        Text(item.watchName,style: TextStyle(color: ProjectColors.whiteColor),),
-        SizedBox(height: BoxSizes.box7,),
-      ],
-    ),
-  ),
-);
+
+class BuildWidget extends StatelessWidget {
+  final CardItem item;
+  const BuildWidget({
+    Key? key, required this.item,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return     Container(
+      width: BoxSizes.box10,
+      height: BoxSizes.box11,
+      decoration: BoxDecoration(borderRadius:BorderRadius.circular(15.0),boxShadow: [
+        BoxShadow(
+          blurRadius: 20,
+          color: ProjectColors.blackColor,
+        ),
+      ]),
+      child: Container(
+        width: BoxSizes.box10,
+        height: BoxSizes.box11,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.0),
+            color: ProjectColors.blackColor),
+        child: Column(
+          children: [
+            Expanded(
+                child: ClipRect(
+                    child: Material(
+                        child: Ink.image(image:AssetImage(item.cardImage),fit: BoxFit.cover,
+                          child: InkWell(
+                            onTap: (){},
+                          ),)))),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 
 
-Widget genreCard({
-  required GenreItem item,
-})=>Container(
-  width: BoxSizes.box15,
-  height: BoxSizes.box15,
-  decoration: BoxDecoration(borderRadius:BorderRadius.circular(10.0),boxShadow: [
-    BoxShadow(
-      blurRadius: 20,
-      color: ProjectColors.blackColor,
-    ),
-  ]),
-  child: Container(
-    width: BoxSizes.box15,
-    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0),
-        color: ProjectColors.blackColor),
-    child: Column(
-      children: [
-        SizedBox(height: BoxSizes.box7,),
-        Text(item.genre,style: TextStyle(color: ProjectColors.whiteColor),),
-        SizedBox(height: BoxSizes.box7,),
-      ],
-    ),
-  ),
-);
+class WatchWidget extends StatelessWidget {
+  final WatchItem item;
+  const WatchWidget({
+    Key? key, required this.item,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return     Container(
+      width: BoxSizes.box12,
+      height: BoxSizes.box13,
+      decoration: BoxDecoration(borderRadius:BorderRadius.circular(10.0),boxShadow: [
+        BoxShadow(
+          blurRadius: 20,
+          color: ProjectColors.blackColor,
+        ),
+      ]),
+      child: Container(
+        width: BoxSizes.box13,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0),
+            color: ProjectColors.darkgreyColor),
+        child: Column(
+          children: [
+            Expanded(
+                child: ClipRect(
+                    child: Material(
+                        child: Ink.image(image:AssetImage(item.watchImage),fit: BoxFit.cover,
+                        child: InkWell(
+                          onTap: (){}
+                        ),)))),
+            SizedBox(height: BoxSizes.box14,),
+            Text(item.watchName,style: TextStyle(color: ProjectColors.whiteColor),),
+            SizedBox(height: BoxSizes.box7,),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 
-Widget MovieCard({
-  required MovieItem item,
-})=>Container(
-  width: BoxSizes.box15,
-  height: BoxSizes.box16,
-  decoration: BoxDecoration(borderRadius:BorderRadius.circular(10.0),boxShadow: [
-    BoxShadow(
-      blurRadius: 20,
-      color: ProjectColors.blackColor,
-    ),
-  ]),
-  child: Container(
-    width: BoxSizes.box15,
-    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0),
-        color: ProjectColors.blackColor),
-    child: Expanded(
-        child: ClipRect(
-            child: Material(
-                child: Ink.image(image:AssetImage(item.movieImage),fit: BoxFit.cover,
-                  child: InkWell(
-                    onTap: (){},
-                  ),)))),
-  ),
-);
 
+
+
+class GenreWidget extends StatelessWidget {
+  final GenreItem item;
+  const GenreWidget({
+    Key? key, required this.item,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return     Container(
+
+      width: BoxSizes.box15,
+
+      height: BoxSizes.box15,
+
+      decoration: BoxDecoration(borderRadius:BorderRadius.circular(10.0),boxShadow: [
+
+        BoxShadow(
+
+          blurRadius: 20,
+
+          color: ProjectColors.blackColor,
+
+        ),
+
+      ]),
+
+      child: Container(
+
+        width: BoxSizes.box15,
+
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0),
+
+            color: ProjectColors.blackColor),
+
+        child: Column(
+
+          children: [
+
+            SizedBox(height: BoxSizes.box7,),
+
+            Text(item.genre,style: TextStyle(color: ProjectColors.whiteColor),),
+
+            SizedBox(height: BoxSizes.box7,),
+
+          ],
+
+        ),
+
+      ),
+
+    );
+  }
+}
 
 
 
