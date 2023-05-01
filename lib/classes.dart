@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:film_app/main_page.dart';
+
 class CardItem {
   final String cardImage;
   const CardItem({

@@ -4,11 +4,10 @@ import 'package:film_app/show_page.dart';
 import '../consts/colors.dart';
 
 
+class GenreWidget extends StatelessWidget {
+  final GenreItem item;
 
-class MovieWidget extends StatelessWidget {
-  final MovieItem item;
-
-  const MovieWidget({
+  const GenreWidget({
     Key? key,
     required this.item,
   }) : super(key: key);
@@ -17,7 +16,7 @@ class MovieWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: BoxSizes.box15,
-      height: BoxSizes.box16,
+      height: BoxSizes.box15,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
           boxShadow: const [
@@ -31,16 +30,20 @@ class MovieWidget extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             color: ProjectColors.blackColor),
-        child: Expanded(
-            child: ClipRect(
-                child: Material(
-                    child: Ink.image(
-                      image: AssetImage(item.movieImage),
-                      fit: BoxFit.cover,
-                      child: InkWell(
-                        onTap: () {},
-                      ),
-                    )))),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: BoxSizes.box7,
+            ),
+            Text(
+              item.genre,
+              style: const TextStyle(color: ProjectColors.whiteColor),
+            ),
+            const SizedBox(
+              height: BoxSizes.box7,
+            ),
+          ],
+        ),
       ),
     );
   }
